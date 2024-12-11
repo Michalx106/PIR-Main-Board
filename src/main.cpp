@@ -1,13 +1,15 @@
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
-#include "button.hpp"
-#include <esp_now.h>
-#include <WiFi.h>
+#include "Button.hpp"
+#include "EspNowManager.hpp"
 
 #define transitorBase 5
 std::shared_ptr<Button> button1(new Button(23, INPUT_PULLUP));
 
 LiquidCrystal_I2C lcd(0x27,20,4);
+
+EspNowManager espNow;
+uint8_t peerAddress[] = {0x24, 0x6F, 0x28, 0x28, 0x28, 0x28};
 
 // put function declarations here:
 int myFunction(int, int);

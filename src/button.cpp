@@ -1,4 +1,4 @@
-#include "button.hpp"
+#include "Button.hpp"
 
 Button::Button(u_int8_t pinDefinition, u_int8_t mode)
 {
