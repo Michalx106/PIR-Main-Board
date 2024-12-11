@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
 #include "button.hpp"
+#include <esp_now.h>
+#include <WiFi.h>
 
 #define transitorBase 5
 std::shared_ptr<Button> button1(new Button(23, INPUT_PULLUP));

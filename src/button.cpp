@@ -50,8 +50,8 @@ bool Button::CheckState()
 template <typename T, typename... Args>
 void Button::LoopFunction(Button button, unsigned long interval, T func, Args... args)
 {
-    state = CheckState();
-    timeBetweenClick = setNewTimeBetweenClicks();
+    button.state = CheckState();
+    button.timeBetweenClick = setNewTimeBetweenClicks();
 
-    if(timeBetweenClick >= interval && state) func(args);
+    if(button.timeBetweenClick >= interval && button.state) func(args);
 }
