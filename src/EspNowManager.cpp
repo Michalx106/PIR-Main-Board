@@ -6,13 +6,11 @@ EspNowManager::OnDataSentCallback EspNowManager::dataSentCallback = nullptr;
 EspNowManager::EspNowManager() {}
 
 bool EspNowManager::begin() {
-    // Ustawienie trybu Wi-Fi
     WiFi.mode(WIFI_STA);
     if (esp_now_init() != ESP_OK) {
         Serial.println("Błąd inicjalizacji ESP-NOW");
         return false;
     }
-    // Rejestracja statycznych callbacków
     esp_now_register_recv_cb(handleDataReceived);
     esp_now_register_send_cb(handleDataSent);
     return true;
