@@ -1,10 +1,13 @@
 #pragma once
 #include <Arduino.h>
+#include <LiquidCrystal_I2C.h>
+#include <memory>
 #include "Button.hpp"
 
-class WateringSystem {
+class WateringSystem : public std::enable_shared_from_this<WateringSystem>
+{
 public:
-    WateringSystem(uint8_t pumpPin, std::shared_ptr<Button> button);
+    WateringSystem(uint8_t pumpPin, std::shared_ptr<Button> button, std::shared_ptr<LiquidCrystal_I2C> lcd);
 
     void begin();
 
@@ -17,7 +20,9 @@ public:
 private:
     uint8_t pumpPin;
     std::shared_ptr<Button> button;
+    std::shared_ptr<LiquidCrystal_I2C> lcd;
 
     unsigned long wateringStartTime = 0;
     bool isWatering = false;
+    void displayRemainingTime(unsigned long remainingTime);
 };
