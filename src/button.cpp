@@ -25,14 +25,37 @@ u_int8_t Button::getPinNumber()
     return pinNumber;
 }
 
-u_int8_t Button::getPinNumber(Button button)
+bool Button::getState(std::shared_ptr<Button> button)
 {
-    return button.pinNumber;
+    return button->state;
+}
+
+u_int8_t Button::getPinNumber(std::shared_ptr<Button> button)
+{
+    return button->pinNumber;
 }
 
 unsigned long Button::getTimeBetweenClicks()
 {
     return timeBetweenClick;
+}
+
+unsigned long Button::getPressDuration()
+{
+    bool currentState = CheckState();
+    unsigned long pressDuration = 0;
+
+    if (currentState && !isPressed) {
+        // Rozpoczęcie wciśnięcia
+        pressStartTime = millis();
+        isPressed = true;
+    } else if (!currentState && isPressed) {
+        // Zakończenie wciśnięcia
+        pressDuration = millis() - pressStartTime;
+        isPressed = false;
+    }
+
+    return pressDuration;
 }
 
 unsigned long Button::setNewTimeBetweenClicks()
@@ -48,10 +71,10 @@ bool Button::CheckState()
 }
 
 template <typename T, typename... Args>
-void Button::LoopFunction(Button button, unsigned long interval, T func, Args... args)
+void Button::LoopFunction(std::shared_ptr<Button> button, unsigned long interval, T func, Args... args)
 {
     button.state = CheckState();
     button.timeBetweenClick = setNewTimeBetweenClicks();
 
-    if(button.timeBetweenClick >= interval && button.state) func(args);
+    if(button.timeBetweenClick >= interval && button.state) func(button, args);
 }

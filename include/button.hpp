@@ -13,11 +13,14 @@ class Button : public std::enable_shared_from_this<Button>
     bool CheckState();
 
     u_int8_t getPinNumber();
-    static u_int8_t getPinNumber(Button button);
+    static u_int8_t getPinNumber(std::shared_ptr<Button> button);
+    static bool getState(std::shared_ptr<Button> button);
     unsigned long getTimeBetweenClicks();
+
+    unsigned long getPressDuration();
     
     template <typename T, typename... Args>
-    static void LoopFunction(Button button, unsigned long interval, T func, Args... args);
+    static void LoopFunction(std::shared_ptr<Button> button, unsigned long interval, T func, Args... args);
 
 
     private:
@@ -28,6 +31,8 @@ class Button : public std::enable_shared_from_this<Button>
     bool state = false;
     unsigned long lastClick = 0;
     unsigned long timeBetweenClick = 0;
+    unsigned long pressStartTime = 0;
+    bool isPressed = false; 
 
     unsigned long setNewTimeBetweenClicks();
 };
